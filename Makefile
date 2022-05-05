@@ -214,6 +214,18 @@ else ifeq ($(platform), qnx)
    fpic := -fPIC
    SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
    CC = qcc -Vgcc_ntoarmv7le
+else ifeq ($(platform), gcce)
+        EXT=a
+        TARGET := $(TARGET_NAME)_libretro_$(platform).$(EXT)
+        CC = arm-none-symbianelf-gcc$(EXE_EXT)
+        CXX = arm-none-symbianelf-gcc$(EXE_EXT)
+        CC_AS = arm-none-symbianelf-gcc$(EXE_EXT)
+        AR = arm-none-symbianelf-ar$(EXE_EXT)
+        #     PLATFORM_DEFINES +=
+        STATIC_LINKING = 1
+	CFLAGS += -std=c99 #inline
+	FLAGS += -fomit-frame-pointer -ffast-math -ftree-vectorize
+	THREADED_DSP = 0
 else ifeq ($(platform), ps3)
    TARGET := $(TARGET_NAME)_libretro_$(platform).a
    CC = $(CELL_SDK)/host-win32/ppu/bin/ppu-lv2-gcc.exe
